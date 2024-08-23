@@ -1,5 +1,5 @@
 import streamlit as st
-import fitz  
+import fitz  # PyMuPDF 
 from PIL import Image
 from pyzbar.pyzbar import decode
 import io
