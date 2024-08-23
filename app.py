@@ -163,7 +163,6 @@ elif page == "Single Certificate Verification":
         st.write(f"Assignment Score: {results['assignment_score']}")
         st.write(f"Proctored Exam Score: {results['proctored_score']}")
         for result in results['verification_results']:
-            st.write(f"QR Code Link: {result['link']}")
             st.write(f"PDF Link: {result['pdf_link']}")
             st.write(f"Status:   {result['status']}")
         st.write("Verification completed.")
