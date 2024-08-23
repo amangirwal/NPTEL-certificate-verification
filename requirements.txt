@@ -1,0 +1,8 @@
+streamlit
+pymupdf
+pillow
+pyzbar
+requests
+beautifulsoup4
+pandas
+openpyxl
