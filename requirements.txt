@@ -1,9 +1,8 @@
-streamlit
-pymupdf
-pillow
-pyzbar
-requests
-beautifulsoup4
-pandas
-openpyxl
-libzbar0
+streamlit>=1.10.0
+pymupdf>=1.21.1  # fitz is imported from pymupdf
+Pillow>=9.2.0
+pyzbar>=0.1.9
+requests>=2.28.0
+beautifulsoup4>=4.11.1
+lxml>=4.9.1
+pandas>=1.4.3
