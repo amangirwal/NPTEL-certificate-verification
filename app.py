@@ -1,5 +1,5 @@
 import streamlit as st
-import fitz  # PyMuPDF 
+import fitz  
 from PIL import Image
 from pyzbar.pyzbar import decode
 import io
@@ -7,7 +7,6 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
-
 
 def extract_text_from_pdf(pdf_bytes):
     document = fitz.open(stream=pdf_bytes, filetype="pdf")
@@ -119,45 +118,50 @@ def process_pdf(pdf_bytes):
 
 def process_certificates(uploaded_files):
     results_list = []
-    for uploaded_file in uploaded_files:
+    my_bar = st.progress(0)  # Progress bar
+    total_files = len(uploaded_files)
+    for i, uploaded_file in enumerate(uploaded_files):
         file_bytes = uploaded_file.read()
         results = process_pdf(file_bytes)
         results_list.append({
             'Filename': uploaded_file.name,
             'Name': results['name'],
-            'Assignment Score': results['assignment_score'],
-            'Proctored Exam Score': results['proctored_score'],
-            'Marks': results['marks'],
+            'Assignment Score (out of 25)': results['assignment_score'],
+            'Proctored Exam Score (out of 75)': results['proctored_score'],
+            'Marks (%)': results['marks'],
             'Status': any(result['status'] == 'Verified' for result in results['verification_results'])
         })
+        my_bar.progress((i + 1) / total_files)
 
     df = pd.DataFrame(results_list)
     df['Status'] = df['Status'].apply(lambda x: 'Verified' if x else 'Not Verified')
     return df
 
 # Streamlit Interface
-st.title("Certificate Verification Interface")
-page = st.sidebar.radio("Select a page", ["Home", "Bulk Verification", "Single Certificate Verification"])
+st.title("🎓 Certificate Verification Interface")
+page = st.sidebar.radio("📄 Select a page", ["Home", "Bulk Verification", "Single Certificate Verification"])
 
 if page == "Home":
-    st.write("Welcome to NPTEL  Certificate Verification")
+    st.write("Welcome to the NPTEL Certificate Verification Interface.")
+    st.image("https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTdqb2NzY2ZjcnlobTVmZ2hqdjJhbnY5dWU4NWk2MzQzeXJ0bzY4ciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VbnUQpnihPSIgIXuZv/giphy.gif", use_column_width=True)
 
 elif page == "Bulk Verification":
-    st.header("Bulk Certificate Verification")
+    st.header("📁 Bulk Certificate Verification")
     uploaded_files = st.file_uploader("Upload a folder of certificates", accept_multiple_files=True, type=['pdf'])
     if uploaded_files:
-        st.write("Wait for csv ...")
+        st.write("🔄 Processing...")
         results_df = process_certificates(uploaded_files)
+        st.success("✔️ Processing completed!")
         st.write(results_df)
-        
 
 elif page == "Single Certificate Verification":
-    st.header("Single Certificate Verification")
+    st.header("📄 Single Certificate Verification")
     uploaded_file = st.file_uploader("Upload a single certificate", type=['pdf'])
     if uploaded_file:
-        st.write("Processing...")
+        st.write("🔄 Processing...")
         file_bytes = uploaded_file.read()
         results = process_pdf(file_bytes)
+        st.success("✔️ Verification completed!")
         st.write(f"Name: {results['name']}")
         st.write(f"Marks: {results['marks']}")
         st.write(f"Assignment Score: {results['assignment_score']}")
@@ -165,4 +169,3 @@ elif page == "Single Certificate Verification":
         for result in results['verification_results']:
             st.write(f"PDF Link: {result['pdf_link']}")
             st.write(f"Status:   {result['status']}")
-        st.write("Verification completed.")
