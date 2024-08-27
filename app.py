@@ -113,8 +113,9 @@ def process_pdf(pdf_bytes):
         'marks': original_marks,
         'assignment_score': assignment_score,
         'proctored_score': proctored_score,
-        'verification_results': verification_results
-    }
+        'verification_results': verification_results,
+        'pdf_link': pdf_link
+}
 
 def process_certificates(uploaded_files):
     results_list = []
@@ -129,7 +130,8 @@ def process_certificates(uploaded_files):
             'Assignment Score (out of 25)': results['assignment_score'],
             'Proctored Exam Score (out of 75)': results['proctored_score'],
             'Marks (%)': results['marks'],
-            'Status': any(result['status'] == 'Verified' for result in results['verification_results'])
+            'Status': any(result['status'] == 'Verified' for result in results['verification_results']),
+            'links for pdf': results['pdf_link']
         })
         my_bar.progress((i + 1) / total_files)
 
