@@ -137,6 +137,7 @@ def process_certificates(uploaded_files):
 
     df = pd.DataFrame(results_list)
     df['Status'] = df['Status'].apply(lambda x: 'Verified' if x else 'Not Verified')
+    df = df.sort_values(by='Status', ascending=False) 
     return df
 
 # Streamlit Interface
