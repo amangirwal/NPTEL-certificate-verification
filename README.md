@@ -33,7 +33,7 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/nptel-verification.git
+   git clone https://github.com/amangirwal/NPTEL-certificate-verification.git
    cd nptel-verification
 2. Create and activate a virtual environment (optional but recommended):
     ```bash
