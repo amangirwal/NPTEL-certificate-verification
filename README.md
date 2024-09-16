@@ -14,9 +14,8 @@ This tool allows users to upload NPTEL certificates (in PDF format) for verifica
 
 ## Project Structure
 
-- **`pyt.py`**: Contains the main logic for processing and extracting data from the PDF files.
 - **`requirements.txt`**: Lists the necessary Python packages for the project.
-- **`streamlit_app.py`**: Streamlit interface for the project.
+- **`app.py`**: Contains the main logic for processing and extracting data from the PDF file and Streamlit interface for the project.
   
 ## Technologies Used
 
@@ -28,11 +27,3 @@ This tool allows users to upload NPTEL certificates (in PDF format) for verifica
 - **BeautifulSoup**: To scrape certificate verification URLs when QR codes are unavailable.
 - **Pandas**: For handling data and creating structured outputs like Excel sheets.
 
-## Installation Instructions
-
-To run this project locally, follow these steps:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/nptel-verification.git
-   cd nptel-verification
