@@ -28,22 +28,24 @@ def extract_qr_codes_from_pdf(pdf_bytes):
             qr_codes.append(qr.data.decode('utf-8'))
     return qr_codes
 
-def extract_name_and_scores(text):
+def extract_name_and_scores(text):  
     lines = text.split('\n')
     name = None
-    marks = None
     assignment_score = None
     proctored_score = None
+    marks = None
+
     uppercase_pattern = re.compile(r'\b[A-Z][A-Z\s]+\b')
     for i, line in enumerate(lines):
-        if uppercase_pattern.match(line.strip()) and not re.search(r'\d+', line):
-            name = line.strip()
-        if i == 9:
-            marks = line.strip()
-        if i == 7:
-            assignment_score = line.strip().split('/')[0].strip()
-        if i == 8:
-            proctored_score = line.strip().split('/')[0].strip()
+        line = line.strip()
+        
+        if uppercase_pattern.match(line) and not re.search(r'\d+', line):
+            name = line
+            assignment_score = lines[i + 1].strip().split('/')[0].strip()  # Next line after name
+            proctored_score = lines[i + 2].strip().split('/')[0].strip()  # Line after assignment score
+            marks = lines[i + 3].strip()  # Line after proctored score
+            break
+
     return name, marks, assignment_score, proctored_score
 
 def extract_pdf_link_from_page(url):
@@ -198,7 +200,7 @@ page = st.sidebar.radio("📄 Select a page", ["Home", "Bulk Verification", "Sin
 
 if page == "Home":
     st.write("Welcome to the NPTEL Certificate Verification Interface.")
-    st.image("https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTdqb2NzY2ZjcnlobTVmZ2hqdjJhbnY5dWU4NWk2MzQzeXJ0bzY4ciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VbnUQpnihPSIgIXuZv/giphy.gif", use_column_width=True)
+    st.image("https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExODVveGQyam9oc2FocXgzYW1ieWt1Zzd6dThiMmEzeHd6eXdxN3FhaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/coxQHKASG60HrHtvkt/giphy.gif", use_column_width=True)
 
 elif page == "Bulk Verification":
     st.header("📁 Bulk Certificate Verification")
