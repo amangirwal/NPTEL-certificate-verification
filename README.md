@@ -1,4 +1,6 @@
 # NPTEL Certificate Verification
+NAME - AMAN GIRWAL
+ENROLLMENT NO. - 0801CS221019
 
 Welcome to the **NPTEL Certificate Verification** app, hosted at [nptel-verification.streamlit.app](https://nptel-verification.streamlit.app).
 
